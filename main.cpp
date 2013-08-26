@@ -14,7 +14,7 @@ int main(int argc, char**argv) {
 	string model;
 
 	if (argc < 2) {
-		model = "cube.dae";
+		model = "board.dae";
 	}
 	else {
 		model = argv[1];

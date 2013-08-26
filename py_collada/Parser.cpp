@@ -27,7 +27,7 @@ BOOST_PYTHON_MODULE(Receivers)
 		.def("setTransformationMatrix", &PyReceiver::setTransformationMatrix);
 }
 
-void Parser::parse(string file, flat_map<string, Receiver*> recvs)
+void Parser::parse(string file, flat_map<string, Receiver*> recvs, string parser)
 {
 
 	Parser::file = file;
@@ -38,9 +38,9 @@ void Parser::parse(string file, flat_map<string, Receiver*> recvs)
 	try {
 		initReceivers();
 
-		FILE *file = fopen("import.py", "r");
+		FILE *file = fopen(parser.c_str(), "r");
 
-		PyRun_SimpleFile(file, "import.py");
+		PyRun_SimpleFile(file, parser.c_str());
 
 		fclose(file);
 	} catch (error_already_set) {

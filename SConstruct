@@ -16,6 +16,7 @@ libs = [
 file_list = [
 	'main.cpp',
 	'Board.cpp',
+	'Ball.cpp',
 	'Game.cpp',
 	'engine/Engine.cpp',
 	'engine/EventHandler.cpp',
@@ -46,7 +47,7 @@ env = {
 
 debug_env = Environment( ENV = env)
 debug_env.AppendUnique(CCFLAGS=flags)
-debug_env.Program('colladaparser', file_list, LIBS=libs)
+debug_env.Program('boardball', file_list, LIBS=libs)
 
 
 

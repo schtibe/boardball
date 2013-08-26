@@ -5,8 +5,10 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <GL/glx.h>
+
 #include "engine/Engine.hpp"
 #include "Board.hpp"
+#include "Ball.hpp"
 
 class Game {
 	public:
@@ -15,7 +17,7 @@ class Game {
 
 	private:
 		Board *board;
-		Board *secondBoard;
+		Ball *ball;
 };
 
 

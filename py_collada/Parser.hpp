@@ -20,7 +20,7 @@ typedef flat_map<string, Receiver *> recv_map;
 class Parser {
 
 	public:
-		static void parse(string file, recv_map receivers);
+		static void parse(string file, recv_map receivers, string parser);
 
 		static string file;
 		static recv_map receivers;
