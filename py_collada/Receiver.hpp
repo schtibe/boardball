@@ -33,6 +33,14 @@ class Receiver {
 			string path
 		) = 0;
 
+		virtual void setAmbientColor(
+			float *color
+		) = 0;
+
+		virtual void setSpecularColor(
+			float *color
+		) = 0;
+
 		virtual void setTransformationMatrix(
 			GLfloat* data
 		) = 0;

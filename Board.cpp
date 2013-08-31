@@ -52,12 +52,10 @@ Board::~Board() {
 void Board::draw() {
 	glUseProgram(programID);
 
-	GLfloat specular[] = {1, 0.7, 0.196, 1.0};
-
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, specular);
-	glMaterialfv(GL_FRONT, GL_AMBIENT, specular);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
-	glMateriali(GL_FRONT, GL_SHININESS, 2);
+	glMaterialfv(GL_FRONT, GL_AMBIENT, ambientColor);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, specularColor);
+	//glMaterialfv(GL_FRONT, GL_DIFFUSE, specularColor);
+	glMateriali(GL_FRONT, GL_SHININESS, 10);
 
 	glUniformMatrix4fv(transformMtrx, 1, GL_TRUE, transformationMatrix);
 
@@ -175,7 +173,7 @@ void Board::setTexels(
 	);
 
 	// it's in openGL memory now, we don't need this anymore
-	//delete this->texelData;
+	delete this->texelData;
 }
 
 void Board::setTexture(
@@ -219,7 +217,7 @@ void Board::setTexture(
 
 	delete surface;
 
-	//delete rwop;
+	delete rwop;
 
 	textures.push_back(storage);
 }
@@ -227,6 +225,15 @@ void Board::setTexture(
 void Board::setTransformationMatrix(GLfloat *data) {
 	this->transformationMatrix = data;
 }
+
+void Board::setAmbientColor(float *color) {
+	this->ambientColor = color;
+}
+
+void Board::setSpecularColor(float *color) {
+	this->specularColor = color;
+}
+
 
 void Board::dumpData() {
 	cout << "#############################" << endl;

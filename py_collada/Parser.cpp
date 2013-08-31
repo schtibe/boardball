@@ -24,6 +24,7 @@ BOOST_PYTHON_MODULE(Receivers)
 		.def("setNormals",   &PyReceiver::setNormals)
 		.def("setTexels",    &PyReceiver::setTexels)
 		.def("setTexture",   &PyReceiver::setTexture)
+		.def("setColor",     &PyReceiver::setColor)
 		.def("setTransformationMatrix", &PyReceiver::setTransformationMatrix);
 }
 

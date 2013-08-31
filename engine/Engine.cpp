@@ -165,17 +165,11 @@ void Engine::initOpenGL() {
 // fix it to the world... not important since
 // we don't look around here, but for properness
 void Engine::lighting() {
-	glPushMatrix();
-	glLoadIdentity();
-
-
-	//glEnable(GL_COLOR_MATERIAL);
-
-	GLfloat ambientLight[]  = {0.2f, 0.2f, 0.2f, 0.0f};
+	GLfloat ambientLight[]  = {1.5f, 0.5f, 0.5f, 1.0f};
 	GLfloat diffuseLight[]  = {0.5f, 0.5f, 0.5f, 0.0f};
 	GLfloat specularLight[] = {0.2f, 0.2f, 0.2f, 1.0f};
 
-	GLfloat lightPosition[] = {5.0f, 5.0f, 10.0f, 1.0f};
+	GLfloat lightPosition[] = {0.0f, 0.0f, 10.0f, 1.0f};
 
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
@@ -184,8 +178,6 @@ void Engine::lighting() {
 
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHTING);
-
-	glPopMatrix();
 }
 
 void Engine::toggleBoundaries(SDL_Event &event) {

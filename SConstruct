@@ -34,7 +34,9 @@ flags = [
 	'-isystem/usr/include/freetype2',
 	'-isystem/usr/include/eigen3',
 	'-isystem/usr/include/python2.7',
-	'-ggdb'
+	'-O3',
+	'-mtune=native',
+	'-g'
 	]
 
 # this is a little hack to use the path variable of

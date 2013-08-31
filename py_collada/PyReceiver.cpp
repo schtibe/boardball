@@ -48,6 +48,11 @@ namespace PyCollada {
 		Parser::receivers[name]->setVertices(data, size / span, span);
 	}
 
+	/**
+	 * Set the texture data
+	 *
+	 * Turn the texture position data into a float array
+	 */
 	void PyReceiver::setTexels(
 			string name,
 			boost::python::list texels,
@@ -59,12 +64,33 @@ namespace PyCollada {
 		Parser::receivers[name]->setTexels(data, size / span, span);
 	}
 
+	/**
+	 * Pass the name of a texture
+	 */
 	void PyReceiver::setTexture(
 			string name,
 			string path
 	) {
 		Parser::receivers[name]->setTexture(path);
 	}
+
+	void PyReceiver::setColor(
+			string name,
+			string colorName,
+			boost::python::list color
+		) {
+
+		unsigned int size;
+		float *data = convertListToFloat(color, &size);
+
+		if (colorName.compare("specular") == 0) {
+			Parser::receivers[name]->setSpecularColor(data);
+		}
+		else if (colorName.compare("ambient") == 0) {
+			Parser::receivers[name]->setAmbientColor(data);
+		}
+
+	};
 
 	/**
 	 * Convert a python list into a float array

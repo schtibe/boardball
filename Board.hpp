@@ -36,6 +36,9 @@ class Board : public DrawObject, public Receiver {
 			string path
 		);
 
+		void setAmbientColor(float *color);
+		void setSpecularColor(float *color);
+
 		void setTransformationMatrix(GLfloat *data);
 
 		void dumpData();
@@ -64,6 +67,12 @@ class Board : public DrawObject, public Receiver {
 		unsigned int texelCount;
 		unsigned int texelSpan;
 		GLfloat *texelData;
+
+		/**
+		 * Color data
+		 */
+		float *specularColor;
+		float *ambientColor;
 
 		/**
 		 * Buffers

@@ -231,8 +231,10 @@ class finisher:
             material = _material[self.geometry.material]
             effect = material.get_effect()
             for texture in effect.textures:
-                print texture
                 receiver.setTexture(self.recv_name, texture)
+
+            for color in effect.colors:
+                receiver.setColor(self.recv_name, color, effect.colors[color])
 
     def __init__(self, geometry):
         self.geometry = geometry

@@ -25,7 +25,7 @@ void DirectionalLight(in int i,
 	float nDotHV; // normal . light half vector
 	float pf; // power factor
 	nDotVP = max(0.0, dot(normal, normalize(vec3(gl_ModelViewMatrix * gl_LightSource[i].position))));
-	nDotHV = max(0.0, dot(normal, vec3(gl_LightSource[i].halfVector)));
+	nDotHV = max(0.0, dot(normal, vec3(gl_ModelViewMatrix * gl_LightSource[i].halfVector)));
 	if (nDotVP == 0.0)
 		pf = 0.0;
 	else
@@ -153,9 +153,9 @@ void main() {
 
 	gl_FrontColor = color;
 	gl_FrontSecondaryColor = specular * gl_FrontMaterial.specular;
-
-
 	/*
+
+
 	vec3 LightPosition = vec3(gl_ModelViewMatrix * gl_LightSource[0].position);
 
 
@@ -167,7 +167,7 @@ void main() {
 
 	LightIntensity = diffuseContribution * max(dot(lightVec, normal), 0.0)
 		+ specularContribution * spec;
-	*/
+		*/
 
 	texCoord = texel;
 

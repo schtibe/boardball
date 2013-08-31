@@ -44,6 +44,12 @@ class PyReceiver {
 				string path
 		);
 
+		void setColor(
+				string name,
+				string colorName,
+				boost::python::list color
+		);
+
 		void setTransformationMatrix(
 			string name,
 			boost::python::list matrix

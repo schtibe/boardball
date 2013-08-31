@@ -14,10 +14,10 @@ Game::Game(string modelFile) :
 	
 	Parser::parse(modelFile, receivers, "import.py");
 
-	ball = new Ball();
+	ball = new Ball(0, 0, 10);
 }
 
 void Game::renderFunc(GLuint time, Engine engine) {
-	//engine.drawObject(*board);
+	engine.drawObject(*board);
 	engine.drawObject(*ball);
 }
