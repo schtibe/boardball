@@ -3,6 +3,9 @@
 #define BALL_HPP
 
 #include "engine/DrawObject.hpp"
+#include "boost/container/vector.hpp"
+
+using boost::container::vector;
 
 class Ball : public DrawObject {
 	public:
@@ -14,13 +17,15 @@ class Ball : public DrawObject {
 
 	private:
 		void initBallGeometry();
+		void subdivide(float *v1, float *v2, float *v3, long depth);
+		void normalize(float v[3]);
 		void init();
 		GLfloat xPos, yPos, zPos;
 
 		GLuint *vertexBuffers;
 		GLuint vertexCount;
 
-		GLfloat ballVertices[60 * 3];
+		boost::container::vector<GLfloat> ballVertices;
 
 		GLuint shader;
 

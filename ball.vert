@@ -8,8 +8,7 @@ const float specularContribution = 0.1;
 const float diffuseContribution = 1.0 - specularContribution;
 
 void main() {
-	vec3 normal = normalize(gl_Vertex.xyz - ballPosition);
-
+	vec3 normal = gl_Vertex.xyz - ballPosition;
 	vec3 ecPosition3 = vec3(gl_ModelViewMatrix  * gl_Vertex);
 
 	vec3 LightPosition = vec3(gl_ModelViewMatrix * gl_LightSource[0].position);
