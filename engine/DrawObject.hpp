@@ -8,7 +8,7 @@
 
 class DrawObject {
 	private:
-		virtual void draw() = 0;
+		virtual void draw(GLuint time) = 0;
 		virtual void doPhysics(GLuint time) = 0;
 
 	friend class Engine;

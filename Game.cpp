@@ -6,10 +6,12 @@
 
 using namespace PyCollada;
 
-Game::Game(string modelFile) :
-	board(new Board())
+Game::Game(string modelFile, Engine &engine) :
+	board(new Board()),
+	engine(engine)
 {
 	lighting();
+	events();
 	recv_map receivers;
 	receivers["board"] = board;
 	
@@ -19,6 +21,7 @@ Game::Game(string modelFile) :
 }
 
 void Game::renderFunc(GLuint time, Engine engine) {
+	engine.doPhysics(*board);
 	engine.drawObject(*board);
 	engine.drawObject(*ball);
 }
@@ -37,4 +40,17 @@ void Game::lighting() {
 
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHTING);
+}
+
+void Game::events() {
+	EventHandler &ev = engine.getEventHandler();
+	ev.registerKey(SDLK_UP, boost::bind(&Board::tiltUpwards, board, _1));
+	ev.registerKey(SDLK_DOWN, boost::bind(&Board::tiltDownwards, board, _1));
+	ev.registerKey(SDLK_LEFT, boost::bind(&Board::tiltLeftwards, board, _1));
+	ev.registerKey(SDLK_RIGHT, boost::bind(&Board::tiltRightwards, board, _1));
+
+	ev.registerKeyRelease(SDLK_UP, boost::bind(&Board::tiltUpwardsRelease, board, _1));
+	ev.registerKeyRelease(SDLK_DOWN, boost::bind(&Board::tiltDownwardsRelease, board, _1));
+	ev.registerKeyRelease(SDLK_LEFT, boost::bind(&Board::tiltLeftwardsRelease, board, _1));
+	ev.registerKeyRelease(SDLK_RIGHT, boost::bind(&Board::tiltRightwardsRelease, board, _1));
 }

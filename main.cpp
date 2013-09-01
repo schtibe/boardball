@@ -24,7 +24,7 @@ int main(int argc, char**argv) {
 	
 	Engine engine("colladaparser", 1024, 768);
 
-	Game *game = new Game(model);
+	Game *game = new Game(model, engine);
 
 	
 	engine.registerRenderFunc(

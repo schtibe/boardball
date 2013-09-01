@@ -33,8 +33,8 @@ flags = [
 	'-isystem/usr/include/freetype2',
 	'-isystem/usr/include/eigen3',
 	'-isystem/usr/include/python2.7',
-	'-O3',
-	'-mtune=native',
+	#'-O3',
+	#'-mtune=native',
 	'-g'
 	]
 

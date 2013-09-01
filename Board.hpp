@@ -41,11 +41,34 @@ class Board : public DrawObject, public Receiver {
 
 		void setTransformationMatrix(GLfloat *data);
 
+		void tiltUpwards(SDL_Event &ev);
+		void tiltDownwards(SDL_Event &ev);
+		void tiltLeftwards(SDL_Event &ev);
+		void tiltRightwards(SDL_Event &ev);
+		void tiltUpwardsRelease(SDL_Event &ev);
+		void tiltDownwardsRelease(SDL_Event &ev);
+		void tiltLeftwardsRelease(SDL_Event &ev);
+		void tiltRightwardsRelease(SDL_Event &ev);
+
 		void dumpData();
 
 	private:
-		void draw();
+		void draw(GLuint time);
 		void doPhysics(GLuint time);
+
+		/**
+		 * Physics
+		 */
+		GLuint lastUpdate = 0;
+		const GLfloat TILT_INTERVAL = 0.1;
+		const GLfloat TILT_FACTOR = 0.01;
+		const GLfloat TILT_MAX = 10.0 / 180 * M_PI;
+		GLfloat tiltX;
+		GLfloat tiltY;
+		bool doTiltDownwards = false;
+		bool doTiltUpwards = false;
+		bool doTiltLeftwards = false;
+		bool doTiltRightwards = false;
 
 		/**
 		 * Vertex data
@@ -85,10 +108,11 @@ class Board : public DrawObject, public Receiver {
 		GLuint programID;
 
 
-		GLuint normalID;
-		GLuint texelID;
-		GLuint transformMtrx;
-		GLuint tex0Sampler;
+		GLuint s_normal;
+		GLuint s_texel;
+		GLuint s_transformMtrx;
+		GLuint s_tex0Sampler;
+		GLuint s_tilt;
 
 
 		GLfloat *transformationMatrix;

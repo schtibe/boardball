@@ -12,13 +12,15 @@
 
 class Game {
 	public:
-		Game(string modelFile);
+		Game(string modelFile, Engine &engine);
 		void renderFunc(GLuint, Engine);
 
 	private:
 		Board *board;
 		Ball *ball;
+		Engine &engine;
 		void lighting();
+		void events();
 };
 
 

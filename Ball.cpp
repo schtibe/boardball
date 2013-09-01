@@ -26,12 +26,16 @@ Ball::Ball(GLfloat xPos, GLfloat yPos, GLfloat zPos) :
 }
 
 void Ball::init() {
+	xSpeed = ySpeed = zSpeed = 1;
+
 	shader = Shader::loadShaders(
 			"ball.vert",
 			"ball.frag"
 	);
 
 	s_ballPos = glGetUniformLocation(shader, "ballPosition");
+	s_time    = glGetUniformLocation(shader, "time");
+	s_speed   = glGetUniformLocation(shader, "speed");
 
 	initBallGeometry();
 }
@@ -147,11 +151,12 @@ void Ball::normalize(float v[3]) {
 	v[2] /= d;
 }
 
-void Ball::draw() {
+void Ball::draw(GLuint time) {
 	glUseProgram(shader);
 
-	GLfloat ballPos[3] = {xPos, yPos, zPos};
 	glUniform3f(s_ballPos, xPos, yPos, zPos);
+	glUniform1f(s_time, time);
+	glUniform3f(s_speed, xSpeed, ySpeed, zSpeed);
 
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffers[0]);

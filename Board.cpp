@@ -22,6 +22,8 @@ using namespace std;
 using namespace Eigen;
 
 Board::Board() :
+	tiltX(0),
+	tiltY(0),
 	vertexBuffers(new GLuint),
 	normalBuffers(new GLuint),
 	textureBuffers(new GLuint)
@@ -32,10 +34,12 @@ Board::Board() :
 			"board.frag"
 	);
 
-	normalID      = glGetAttribLocation(programID, "vertex_normal");
-	texelID       = glGetAttribLocation(programID,   "texel");
-	transformMtrx = glGetUniformLocation(programID, "transformation");
-	tex0Sampler   = glGetUniformLocation(tex0Sampler, "tex0");
+	s_normal        = glGetAttribLocation(programID, "vertex_normal");
+	s_texel         = glGetAttribLocation(programID,  "texel");
+
+	s_transformMtrx = glGetUniformLocation(programID, "transformation");
+	s_tex0Sampler   = glGetUniformLocation(programID, "tex0");
+	s_tilt          = glGetUniformLocation(programID, "tilt");
 }
 
 Board::~Board() {
@@ -49,19 +53,21 @@ Board::~Board() {
 	delete transformationMatrix;
 }
 
-void Board::draw() {
+void Board::draw(GLuint time) {
 	glUseProgram(programID);
+
+	glUniform2f(s_tilt, tiltX, tiltY);
 
 	glMaterialfv(GL_FRONT, GL_AMBIENT, ambientColor);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, specularColor);
 	//glMaterialfv(GL_FRONT, GL_DIFFUSE, specularColor);
 	glMateriali(GL_FRONT, GL_SHININESS, 10);
 
-	glUniformMatrix4fv(transformMtrx, 1, GL_TRUE, transformationMatrix);
+	glUniformMatrix4fv(s_transformMtrx, 1, GL_TRUE, transformationMatrix);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textures[0]);
-	glUniform1i(tex0Sampler, 0);
+	glUniform1i(s_tex0Sampler, 0);
 
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffers[0]);
@@ -75,11 +81,11 @@ void Board::draw() {
 			BUFFER_OFFSET(0)
 	);
 
-	glEnableVertexAttribArray(normalID);
+	glEnableVertexAttribArray(s_normal);
 	glBindBuffer(GL_ARRAY_BUFFER, normalBuffers[0]);
 
 	glVertexAttribPointer(
-			normalID,
+			s_normal,
 			normalSpan,
 			GL_FLOAT,
 			GL_FALSE,
@@ -87,10 +93,10 @@ void Board::draw() {
 			BUFFER_OFFSET(0)
 	);
 
-	glEnableVertexAttribArray(texelID);
+	glEnableVertexAttribArray(s_texel);
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffers[0]);
 	glVertexAttribPointer(
-			texelID,
+			s_texel,
 			texelSpan,
 			GL_FLOAT,
 			GL_TRUE,
@@ -101,12 +107,38 @@ void Board::draw() {
 	glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 
 	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(normalID);
-	glDisableVertexAttribArray(texelID);
+	glDisableVertexAttribArray(s_normal);
+	glDisableVertexAttribArray(s_texel);
 }
 
 void Board::doPhysics(GLuint time) {
+	if (time - lastUpdate >= TILT_INTERVAL) {
+		if (doTiltUpwards) {
+			if (tiltX + TILT_FACTOR < TILT_MAX) {
+				tiltX += TILT_FACTOR;
+			}
+		}
 
+		if (doTiltDownwards) {
+			if (tiltX - TILT_FACTOR > -TILT_MAX) {
+				tiltX -= TILT_FACTOR;
+			}
+		}
+
+		if (this->doTiltLeftwards) {
+			if (tiltY - TILT_FACTOR > -TILT_MAX) {
+				tiltY -= TILT_FACTOR;
+			}
+		}
+
+		if (this->doTiltRightwards) {
+			if (tiltY + TILT_FACTOR < TILT_MAX) {
+				tiltY += TILT_FACTOR;
+			}
+		}
+
+		lastUpdate = time;
+	}
 }
 
 /**
@@ -234,6 +266,37 @@ void Board::setSpecularColor(float *color) {
 	this->specularColor = color;
 }
 
+void Board::tiltUpwards(SDL_Event &ev) {
+	doTiltUpwards = true;
+}
+
+void Board::tiltDownwards(SDL_Event &ev) {
+	doTiltDownwards = true;
+}
+
+void Board::tiltLeftwards(SDL_Event &ev) {
+	doTiltLeftwards = true;
+}
+
+void Board::tiltRightwards(SDL_Event &ev) {
+	doTiltRightwards = true;
+}
+
+void Board::tiltUpwardsRelease(SDL_Event &ev) {
+	doTiltUpwards = false;
+}
+
+void Board::tiltDownwardsRelease(SDL_Event &ev) {
+	doTiltDownwards = false;
+}
+
+void Board::tiltLeftwardsRelease(SDL_Event &ev) {
+	doTiltLeftwards = false;
+}
+
+void Board::tiltRightwardsRelease(SDL_Event &ev) {
+	doTiltRightwards = false;
+}
 
 void Board::dumpData() {
 	cout << "#############################" << endl;

@@ -12,15 +12,17 @@ class Ball : public DrawObject {
 		Ball();
 		Ball(GLfloat xPos, GLfloat yPos, GLfloat zPos);
 
-		void draw();
-		void doPhysics(GLuint time);
 
 	private:
+		void draw(GLuint time);
+		void doPhysics(GLuint time);
+
 		void initBallGeometry();
 		void subdivide(float *v1, float *v2, float *v3, long depth);
 		void normalize(float v[3]);
 		void init();
 		GLfloat xPos, yPos, zPos;
+		GLfloat xSpeed, ySpeed, zSpeed;
 
 		GLuint *vertexBuffers;
 		GLuint vertexCount;
@@ -30,6 +32,8 @@ class Ball : public DrawObject {
 		GLuint shader;
 
 		GLuint s_ballPos;
+		GLuint s_time;
+		GLuint s_speed;
 };
 
 

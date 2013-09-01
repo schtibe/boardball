@@ -15,6 +15,8 @@ varying vec2 texCoord;
 const float specularContribution = 0.1;
 const float diffuseContribution = 1.0 - specularContribution;
 
+uniform vec2 tilt;
+
 void DirectionalLight(in int i,
 		in vec3 normal,
 		inout vec4 ambient,
@@ -122,17 +124,33 @@ void SpotLight(in int i,
 	specular += gl_LightSource[i].specular * pf * attenuation;
 }
 
-const float pi = 3.14159;
-const float angle = -(pi / 2);
-mat4 rotate = mat4(
-				   1.0  , 0.0         , 0.0        , 0.0 ,
-				   0.0  , cos(angle)  , sin(angle) , 0   ,
-				   0    , -sin(angle) , cos(angle) , 0   ,
-			       0    , 0           , 0          , 1   
-				   );
+mat4 rotationMatrix() {
+	float xAngle = -tilt.y;
+	float yAngle = -tilt.x;
+
+	mat4 xRotation = mat4(
+		1 , 0           , 0            , 0 ,
+		0 , cos(xAngle) , -sin(xAngle) , 0 ,
+		0 , sin(xAngle) , cos(xAngle)  , 0 ,
+		0 , 0           , 0            , 1
+	);
+
+	mat4 yRotation = mat4(
+		cos(yAngle)  , 0 , sin(yAngle) , 0 ,
+		0            , 1 , 0           , 0 ,
+		-sin(yAngle) , 0 , cos(yAngle) , 0 ,
+		0            , 0 , 0           , 1
+	);
+
+	return xRotation * yRotation;
+}
+
+
 
 void main() {
-	vec3 ecPosition3 = vec3(gl_ModelViewMatrix *(transformation * gl_Vertex));
+	mat4 rotation = rotationMatrix();
+	vec4 vertex = transformation * rotation * gl_Vertex;
+	vec3 ecPosition3 = vec3(gl_ModelViewMatrix * vertex);
 
 	vec4 transformedNormal = transformation * vec4(vertex_normal, 0.0);
 	vec3 normal = normalize(
@@ -171,7 +189,7 @@ void main() {
 
 	texCoord = texel;
 
-	gl_Position = gl_ModelViewProjectionMatrix * (transformation * gl_Vertex);
+	gl_Position = gl_ModelViewProjectionMatrix * vertex;
 }
 
 
