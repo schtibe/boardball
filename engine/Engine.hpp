@@ -9,7 +9,6 @@
 
 
 #include "EventHandler.hpp"
-#include "CollisionHandler.hpp"
 #include "Camera.hpp"
 #include "DrawObject.hpp"
 
@@ -32,7 +31,6 @@ class Engine {
 		Engine(string name, GLuint scrW, GLuint scrH);
 
 		EventHandler& getEventHandler();
-		CollisionHandler& getCollisionHandler();
 
 		GLboolean isRunning();
 		void registerRenderFunc(render_func);
@@ -58,7 +56,6 @@ class Engine {
 		GLuint currentTime = 0;
 
 		EventHandler evHandler;
-		CollisionHandler collisionHandler;
 
 		void initSDL(string name);
 		void initOpenGL();
@@ -82,9 +79,6 @@ class Engine {
 
 		bool debugCameraActive       = false;
 		GLfloat cameraSpeed          = 0.5;
-
-		bool debugBoundaries         = false;
-		void toggleBoundaries(SDL_Event&);
 
 		void renderOrigin();
 

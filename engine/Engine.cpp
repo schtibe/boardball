@@ -20,8 +20,7 @@ Engine::Engine(string name, GLuint scrW, GLuint scrH) :
 	running(false),
 	scrW(scrW),
 	scrH(scrH),
-	evHandler(EventHandler()),
-	collisionHandler(CollisionHandler())
+	evHandler(EventHandler())
 {
 	initSDL(name);
 	initOpenGL();
@@ -33,9 +32,6 @@ EventHandler& Engine::getEventHandler() {
 	return evHandler;
 }
 
-CollisionHandler& Engine::getCollisionHandler() {
-	return collisionHandler;
-}
 
 GLboolean Engine::isRunning() {
 	return running;
@@ -65,10 +61,7 @@ void Engine::render() {
 }
 
 void Engine::drawObject(DrawObject &obj) {
-	if (!debugBoundaries) {
-		obj.draw();
-	}
-
+	obj.draw(currentTime);
 }
 
 void Engine::fps(GLuint time) {
@@ -161,18 +154,12 @@ void Engine::initOpenGL() {
 
 
 
-void Engine::toggleBoundaries(SDL_Event &event) {
-	debugBoundaries = !debugBoundaries;
-
-	getCollisionHandler().toggleBoundaries();
-}
 
 void Engine::initEvents() {
 	evHandler.registerVideoResizeCallback (boost::bind(&Engine::videoResize, this, _1));
 	evHandler.registerQuitCallback        (boost::bind(&Engine::quit, this, _1));
 
 	evHandler.registerKey(SDLK_ESCAPE, boost::bind(&Engine::quit, this, _1));
-	evHandler.registerKeyOnce(SDLK_b  , boost::bind(&Engine::toggleBoundaries, this, _1));
 }
 
 void Engine::toggleDebugCamera() {
