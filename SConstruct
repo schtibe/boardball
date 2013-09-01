@@ -22,7 +22,6 @@ file_list = [
 	'engine/EventHandler.cpp',
 	'engine/Camera.cpp',
 	'engine/utils/Linalg.cpp',
-	'engine/Boundary.cpp',
 	'engine/Shader.cpp',
 	'py_collada/Parser.cpp',
 	'py_collada/PyReceiver.cpp'
