@@ -18,6 +18,7 @@ class Game {
 	private:
 		Board *board;
 		Ball *ball;
+		void lighting();
 };
 
 

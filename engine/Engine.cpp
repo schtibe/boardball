@@ -139,8 +139,6 @@ void Engine::initOpenGL() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	lighting();
-
 	glEnable(GL_POLYGON_SMOOTH);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
@@ -161,24 +159,7 @@ void Engine::initOpenGL() {
 	cam.positionCamera(0, 0, 20,   0, 0, 0,   0, 1, 0);
 }
 
-// TODO the lighting is fixed to the view
-// fix it to the world... not important since
-// we don't look around here, but for properness
-void Engine::lighting() {
-	GLfloat ambientLight[]  = {1.5f, 0.5f, 0.5f, 1.0f};
-	GLfloat diffuseLight[]  = {0.5f, 0.5f, 0.5f, 0.0f};
-	GLfloat specularLight[] = {0.2f, 0.2f, 0.2f, 1.0f};
 
-	GLfloat lightPosition[] = {0.0f, 0.0f, 10.0f, 1.0f};
-
-	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
-
-	glEnable(GL_LIGHT0);
-	glEnable(GL_LIGHTING);
-}
 
 void Engine::toggleBoundaries(SDL_Event &event) {
 	debugBoundaries = !debugBoundaries;

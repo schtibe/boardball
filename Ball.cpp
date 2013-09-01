@@ -151,7 +151,7 @@ void Ball::draw() {
 	glUseProgram(shader);
 
 	GLfloat ballPos[3] = {xPos, yPos, zPos};
-	glUniformMatrix3fv(s_ballPos, 1, GL_TRUE, ballPos);
+	glUniform3f(s_ballPos, xPos, yPos, zPos);
 
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffers[0]);
